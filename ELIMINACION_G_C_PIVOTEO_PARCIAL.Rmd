@@ -1,0 +1,156 @@
+---
+title: "Untitled"
+author: "Liliana Contreras Segundo"
+date:    "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: bootstrap
+    word_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Eliminacion Gaussiana con pivoteo parcial
+
+El sistema a resolver es:
+5x+2y-3z+4w=-1
+-x+y+z-3w=2
+6x+6y+4z+w=0
+x-y-z+w=2
+
+```{r}
+valoresc <- c(5, -1,6,1,2,1,6,-1,-3,1,4,-1,4,-3,1,1, -1, 2, 0, 2)
+A<- matrix(t(valoresc), nrow = 4)
+(A)
+```
+
+
+## primer pivoteo ( cambio de columnas)
+
+```{r}
+R1<- A[3,]; (R1)
+R3<- A[1,]; (R3)
+R2<- A[2,]; (R2)
+R4<- A[4,]; (R4)
+NuevaA <- rbind(R1,R2, R3, R4)
+(NuevaA)
+```
+
+### primera eliminación
+
+```{r}
+#R1<-NuevaA[1,]
+m1 <- -A[2,1]/A[1,1]; (m1)
+m2<- -A[3,1]/A[1,1]; (m2)
+m3<- -A[4,1]/A[1,1]; (m3)
+
+R2<- m1*A[1,]+A[2,]; (R2)
+R3<- m2*A[1,]+A[3,]; (R3)
+R4 <- m3*A[1,]+A[4,]; (R4)
+NuevaA <- rbind(R1,R2, R3, R4)
+(NuevaA)
+```
+
+## Segundo pivoteo
+
+```{r}
+NuevaA <- rbind(R1,R3, R2, R4)
+(NuevaA)
+```
+
+### Eliminación 2
+
+```{r}
+m4<- -NuevaA[3,2]/NuevaA[2,2]; 
+m5<- -NuevaA[4,2]/NuevaA[2,2];
+R3<- m4*NuevaA[2,]+NuevaA[3,]; 
+R4 <- m5*NuevaA[2,]+NuevaA[4,]; 
+NuevaA <- rbind(R1,R2, R3, R4)
+(NuevaA)
+```
+
+### Eliminación 3
+
+```{r}
+m6<- -NuevaA[4,3]/NuevaA[3,3]
+R1<- NuevaA[1,]
+R2<- NuevaA[2,]
+R3<- NuevaA[3,]
+R4<- m6*NuevaA[3,]+NuevaA[4,]
+NuevaA<- rbind(R1,R2,R3,R4)
+(NuevaA)
+
+```
+
+## Eiminación de los valores faltantes
+
+
+### Eliminación 4
+
+```{r}
+m7<- -NuevaA[3,4]/NuevaA[4,4]
+m8<- -NuevaA[2,4]/NuevaA[4,4]
+m9<- -NuevaA[1,4]/NuevaA[4,4]
+
+R1<- m9 * NuevaA[4,] + NuevaA[1,]
+R2<- m8 * NuevaA[4,] + NuevaA[2,]
+R3<- m7 * NuevaA[4,] + NuevaA[3,]
+R4<- NuevaA[4,]
+
+NuevaA<- rbind(R1, R2, R3, R4)
+(NuevaA)
+```
+
+### Eliminación 5
+
+```{r}
+m10<- -NuevaA[2,3]/NuevaA[3,3]
+m11<- -NuevaA[1,3]/NuevaA[3,3]
+
+R4<- NuevaA[4,]
+R3<- NuevaA[3,]
+R2<- m10 * NuevaA[3,] + NuevaA[2,]
+R1<- m11 * NuevaA[3,] + NuevaA[1,]
+
+NuevaA<- rbind(R1, R2, R3, R4)
+(NuevaA)
+```
+
+## Eliminación 6
+
+```{r}
+m12<- -NuevaA[1,2]/NuevaA[2,2]
+
+R4<- NuevaA[4,]
+R3<- NuevaA[3,]
+R2<- NuevaA[2,]
+R1<- m12 * NuevaA[2,] + NuevaA[1,]
+
+NuevaA<- rbind(R1, R2, R3, R4)
+(NuevaA)
+```
+
+# Soluciones
+
+```{r}
+x<- NuevaA[1,5] / NuevaA[1,1]
+y<- NuevaA[2,5] / NuevaA[2,2]
+z<- NuevaA[3,5] / NuevaA[3,3]
+w<- NuevaA[4,5] / NuevaA[4,4]
+
+cat("Soluciones del sistema:\n")
+cat("x =", x, "\n")
+cat("y =", y, "\n") 
+cat("z =", z, "\n")
+cat("w =", w, "\n")
+```
+
+
+
+
