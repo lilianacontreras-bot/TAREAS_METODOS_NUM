@@ -1,0 +1,201 @@
+---
+title: "Clase 7 de Metodos Numericos"
+author: "Liliana Contreras Segundo"
+date:    "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: bootstrap
+    word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Metodo de la secante
+
+## Ejemplo 1:
+
+Graficar la función $f(x)=2x^{3}-3x^{2}-11x+6$
+```{r}
+a <- -5
+b <- 5
+paso <- 0.01
+x <- seq(a,b,paso); (x)
+head(x,10)
+```
+
+
+Graficamos la función cúbica de $f(x)=2x^{3}-3x^{2}-11x+6$ en el intervalo $\left[-5,5\right]$
+
+```{r}
+A <- 2
+B <- -3
+C <- -11
+D <- 6
+
+f_x <- A*(x^3)+B*(x^2)+C*x+D
+head(f_x,10)
+```
+
+Graficamos la función
+
+```{r}
+plot(x,f_x, col = "orange",
+     main = "Gráfica de una función cúbica",
+     type = "l",
+     xlab = "x",
+     ylab = "f(x)")
+abline(v = 0, type = "-", col = "blue")
+abline(h = 0, type = "-", col = "gray")
+```
+
+```{r}
+# Esta es mi función
+f_sec <- function(x0, x1){
+ A <- 2; B <- -3; C <- -11; D <- 6;
+ fx0 <- A*(x0^3)+B*(x0^2)+C*x0+D
+ fx1 <- A*(x1^3)+B*(x1^2)+C*x1+D 
+ x2 <- x1-(fx1*(x1-x0)/(fx1-fx0))
+ list(next_x=x2, fx0=fx0, fx1=fx1)
+}
+r <- f_sec(0,3)
+(r)
+```
+
+la mando a llamar
+```{r}
+x0 <- 2.5;
+x1 <- 3.5
+r <- f_sec(x0, x1)
+x2 <- r$next_x; (x2)
+mi_error <- abs(x2-x1); (mi_error)
+```
+
+```{r}
+x0 <- x1;
+x1 <- x2;
+r <- f_sec(x0, x1)
+x3 <- r$next_x; (x3)
+fx3 <- A*(x3^3)+B*(x3^2)+C*x3+D; (fx3)
+mi_error <- abs(x3-x2); (mi_error)
+```
+
+```{r}
+x0 <- x2;
+x1 <- x3;
+r <- f_sec(x0, x1)
+x4 <- r$next_x; (x4)
+
+fx4 <- A*(x4^3)+B*(x4^2)+C*x4+D; (fx4)
+
+mi_error <- abs(x4-x3); (mi_error)
+```
+
+
+```{r}
+x0 <- x3;
+x1 <- x4;
+r <- f_sec(x0, x1)
+x5 <- r$next_x; (x5)
+
+fx5 <- A*(x5^3)+B*(x5^2)+C*x5+D; (fx5)
+
+mi_error <- abs(x5-x4); (mi_error)
+
+```
+```{r}
+x0 <- x4;
+x1 <- x5;
+r <- f_sec(x0, x1)
+x6 <- r$next_x; (x6)
+
+fx6 <- A*(x6^3)+B*(x6^2)+C*x6+D; (fx6)
+
+mi_error <- abs(x6-x5); (mi_error)
+
+```
+
+## Mejoras del codigo
+
+```{r}
+mi_pol <- function(x0){
+ A <- 2; B <- -3; C <- -11; D <- 6;
+ fx0 <- A*(x0^3)+B*(x0^2)+C*x0+D
+}
+```
+
+```{r}
+x0<- 2.5; x1<-3.5
+fx0 <- mi_pol(x0)
+paste0("La funcion evaluada en el punto:",x0," es ",fx0)
+fx1<- mi_pol(x1)
+paste0("La funcion evaluada en el punto:",x1," es ",fx1)
+```
+
+
+
+```{r}
+# Esta es mi función
+f_sec2 <- function(x0, x1){
+  fx0 <- mi_pol(x0)
+x5 <- r$next_x; (x5)
+ x2 <- x1-(fx1*(x1-x0)/(fx1-fx0))
+ list(next_x=x2, fx0=fx0, fx1=fx1)
+}
+```
+
+
+```{r}
+r<-f_sec2(x0, x1)
+x2 <- r$next_x;
+x5 <- r$next_x; (x5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+luego boirro
+
+
+```{r}
+fx<- fuction(x){  
+  cos(x)-x}
+dfx<-fumcion(x){
+  -sen(x)-1
+}
+```
+
+```{r}
+g(x)<-function(x){
+  cos(x)-x
+}
+```
+```{r}
+x0<- 1
+f<- fx(x0)
+df<-dfx(x0)
+NError<-x1-x0
+```
