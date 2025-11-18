@@ -1,0 +1,139 @@
+---
+title: "Clase 7 de Metodos Numericos"
+author: "Liliana Contreras Segundo"
+date:    "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: bootstrap
+    word_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Prmer paso graficar todos los puntos
+
+$P_1(1,2)$
+
+$P_2(2,3)$
+
+$P_3(4,7)$
+
+
+
+```{r}
+x<- seq(-5,5,0.1)
+#type="
+y<- cos(x)-x
+fcos<- cos(x)
+plot(x,y, col = "orange",
+     main = "puntos en la grafica",
+     type = "l",
+     xlab = "x",
+     ylab = "f(x)")
+abline(v = 0, type = "-", col = "blue")
+abline(h = 0, type = "-", col = "gray")
+```
+
+$a_0+a_1+a_2=2$
+
+$a_0+2a_1+4a_2=3$
+
+$a_0+4a_1+16a_2=7$
+
+
+```{r}
+valores <- c(1, 1, 1, 2,
+             1, 2, 4, 3,
+             1, 4, 16, 7 )
+A <- matrix((valores), nrow = 3, byrow = TRUE)
+print(A)
+```
+
+```{r}
+R1<- A[1,]
+R2<- A[2,]
+R3<- A[3,]
+A <- rbind(R1, R2, R3)
+(A)
+```
+
+
+```{r}
+# primera eliminación
+m1 <- -A[2,1]/A[1,1]
+m2<- -A[3,1]/A[1,1]
+
+A[2,]<- m1*A[1,]+A[2,]
+A[3,]<- m2*A[1,]+A[3,]
+(A)
+```
+
+```{r}
+# pivoteo
+R1<- A[1,]
+R2<- A[3,]
+R3<- A[2,]
+A <- rbind(R1, R2, R3)
+(A)
+```
+
+```{r}
+# Normalizar fila 2
+R2 <- A[2,] / A[2,2]
+A <- rbind(R1, R2, R3)
+(A)
+```
+
+```{r}
+# segunda eliminación
+m3<- -A[3,2]/A[2,2]
+
+A[3,]<- m3*A[2,]+A[3,]
+(A)
+```
+
+```{r}
+# Normalizar fila 3
+R3 <- A[3,] / A[3,3]
+A <- rbind(R1, R2, R3)
+(A)
+```
+
+```{r}
+# Eliminación
+m4<- -A[2,3]/A[3,3]
+m5<- -A[1,3]/A[3,3]
+
+A[2,]<- m4*A[3,]+A[2,]
+A[1,]<- m5*A[3,]+A[1,]
+(A)
+```
+
+```{r}
+# Eliminación
+m6<- -A[1,2]/A[2,2]
+
+A[1,]<- m6*A[2,]+A[1,]
+(A)
+```
+
+### Soluciones
+```{r}
+x1 <- A[1,4]
+x2 <- A[2,4]
+x3 <- A[3,4]
+
+cat("Soluciones del sistema:\n")
+cat("x1 =", x1, "\n")
+cat("x2 =", x2, "\n") 
+cat("x3 =", x3, "\n")
+cat("\n")
+```
+
+
