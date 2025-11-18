@@ -1,0 +1,114 @@
+---
+title: "Clase 7 de Metodos Numericos"
+author: "Liliana Contreras Segundo"
+date:    "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: bootstrap
+    word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Metodo de Newton 
+
+f(x)=cos(x)-x
+f´(x)=-sen(x)-1
+
+
+
+```{r}
+x<- seq(-5,5,0.1)
+y<- cos(x)-x
+fcos<- cos(x)
+plot(x,y, col = "orange",
+     main = "Función original",
+     type = "l",
+     xlab = "x",
+     ylab = "f(x)")
+abline(v = 0, type = "-", col = "blue")
+abline(h = 0, type = "-", col = "gray")
+```
+
+
+
+ ## primero la funcion
+```{r}
+fx<- function(x){  
+  cos(x)-x
+}
+fx(1)
+```
+
+ahora la derivada de la funcion $f(x)$
+```{r}
+dfx<-function(x){
+  -sin(x)-1
+}
+dfx(1)
+```
+
+
+Finalmente la función $g(x)$ q se utilizara en el metodo del punto fijo
+
+```{r}
+gx<-function(x){
+  cos(x)
+}
+gx(1)
+```
+ ## Iteracion de Newton-Raphson
+```{r}
+x0<- 1;
+f<- fx(x0)
+df<-dfx(x0);
+x1<- x0-(f/df); (x1)
+NError<-x1-x0;(NError)
+```
+
+se  iteración
+
+```{r}
+k<- 1
+xk<-c()
+NError<-15245
+tolerancia<- 0.0000001
+MaxIter<- 50
+x0<-1
+f<-fx(x0)
+df<-dfx(x0)
+xk[1]<-  x0-(f/df); (xk[1]);
+k<-k+1
+while((k<=MaxIter)|(NError > tolerancia)){
+  x0<-x[k-1]; (x0)
+  f<- fx(x0);(f)
+  df<-dfx(x0);(df)
+  xk[k]<-x0-(f/df)
+  (xk[k])
+   NError<-xk[k]-xk[k-1];(NError)
+  k<-k+1;(k)
+  k<=MaxIter
+  NError>tolerancia
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
